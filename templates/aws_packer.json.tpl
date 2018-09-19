@@ -38,7 +38,7 @@
             },
             "owners": ["099720109477"],
             "most_recent": true
-        },
+        }
       }
     ],
     "provisioners": [

@@ -4,22 +4,22 @@ data "vault_generic_secret" "chef" {
 
 resource "null_resource" "configure_chef" {
     provisioner "local-exec" {
-        command = "echo '${data.vault_generic_secret.chef["validation_key"]}' > ${path.root}/chef_validator.pem"
+        command = "echo '${data.vault_generic_secret.chef.data["validation_key"]}' > ${path.root}/chef_validator.pem"
     }
 
     provisioner "local-exec" {
-        command = "echo '${data.vault_generic_secret.chef["encrypted_data_bag_secret"]}' > ${path.root}/chef_encrypted_data_bag_secret.pem"
+        command = "echo '${data.vault_generic_secret.chef.data["encrypted_data_bag_secret"]}' > ${path.root}/chef_encrypted_data_bag_secret.pem"
     }
 }
 
-data "template_file" "azure_packer_config" {
+data "template_file" "packer_config" {
     depends_on = [
         "null_resource.configure_chef"
     ]
     vars = {
         CHEF_VALIDATION_KEY= "${path.root}/chef_validator.pem"
-        CHEF_VALIDATION_CLIENT_NAME="${data.vault_generic_secret.chef["validation_client_name"]}"
-        CHEF_SERVER_URL="${data.vault_generic_secret.chef["server_url"]}"
+        CHEF_VALIDATION_CLIENT_NAME="${data.vault_generic_secret.chef.data["validation_client_name"]}"
+        CHEF_SERVER_URL="${data.vault_generic_secret.chef.data["server_url"]}"
         CHEF_ENCRYPTED_DATA_BAG_SECRET="${path.root}/chef_encrypted_data_bag_secret.pem"
         CHEF_ENV="${var.chef_env}"
         SERVICE_NAME = "${var.service_name}"

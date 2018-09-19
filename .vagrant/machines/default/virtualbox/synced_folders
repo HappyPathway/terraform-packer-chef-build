@@ -1,0 +1,1 @@
+{"virtualbox":{"/srv/salt/":{"guestpath":"/srv/salt","hostpath":"/Users/davearnold/git/terraform-packer-salt-build/salt","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/davearnold/git/terraform-packer-salt-build","disabled":false,"__vagrantfile":true}}}
